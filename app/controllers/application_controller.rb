@@ -14,22 +14,10 @@ class ApplicationController < Sinatra::Base
     erb :welcome
   end 
 
-  get '/signup' do
-    redirect '/users/new'
-  end
+  private
 
-  post '/signup' do
-    @user = User.new(params)
-    if @user.save
-        session[:id] = @user.id
-        redirect '/tweets'
-    else
-        erb :'/users/new'
-    end 
-  end 
-
-  get '/login' do 
-
+  def logged_in?
+    !!session[:id]
   end 
 
 end

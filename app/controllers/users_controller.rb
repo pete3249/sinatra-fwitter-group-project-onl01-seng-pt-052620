@@ -2,13 +2,13 @@ class UsersController < ApplicationController
 
     get '/signup' do
         if logged_in?
-            redirect '/tweets'
+            redirect to '/tweets'
+        else
+            erb :'/users/new' 
         end 
-        erb :'/users/new'
-      end
+    end
     
     post '/signup' do
-        #binding.pry
         @user = User.new(params)
 
         if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
@@ -21,7 +21,22 @@ class UsersController < ApplicationController
     end 
     
     get '/login' do 
-    
+        if logged_in?
+            redirect '/tweets'
+        else 
+            erb :'users/login'
+        end 
     end 
+
+    post '/login' do
+        @user = User.find_by(username: params[:username])
+
+        if user && user.authenticate(params[:password])
+            session[:id] = user.id
+            erb :'/tweets'
+        else
+            redirect '/signup'
+        end 
+    end
 
 end

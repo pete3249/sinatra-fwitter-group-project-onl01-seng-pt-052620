@@ -28,4 +28,8 @@ class ApplicationController < Sinatra::Base
     end 
   end 
 
+  get '/login' do 
+
+  end 
+
 end

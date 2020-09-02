@@ -9,15 +9,15 @@ get '/tweets' do
     end 
 end 
 
- get '/tweets/new' do
+get '/tweets/new' do
     if logged_in?
         erb :'/tweets/new'
     else 
         redirect '/login'
     end
- end
+end
 
- get '/tweets/:id' do
+get '/tweets/:id' do
     if logged_in?
         @tweet = Tweet.find_by_id(params[:id])
         erb :'/tweets/show'
@@ -26,7 +26,7 @@ end
     end 
 end
 
- post '/tweets' do
+post '/tweets' do
     @user = current_user
     if logged_in?
         if !params[:content].empty?
@@ -39,31 +39,33 @@ end
     else 
         redirect '/tweets'
     end 
- end
+end
 
- get '/tweets/:id/edit' do
+get '/tweets/:id/edit' do
     @tweet = Tweet.find_by_id(params[:id])
      if logged_in?
         erb :'/tweets/edit'
      else
         redirect '/login'
      end
- end
+end
 
- patch '/tweets/:id' do
+patch '/tweets/:id' do
     @tweet = Tweet.find_by_id(params[:id])
     if logged_in?
         if !params[:content].empty?
             @tweet.update(content: params[:content])
             redirect '/tweets'
+        else
+           redirect "/tweets/#{@tweet.id}/edit"
         end 
     else
         redirect '/login'
     end 
- end
+end
 
- delete '/tweets/:id' do
+delete '/tweets/:id' do
 
- end
+end
 
 end
